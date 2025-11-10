@@ -1,8 +1,28 @@
-from fastapi import FastAPI
+import uvicorn
+    # main.py
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
+from typing import List
 
+# from .database import get_db
+# from .models import User
+# from .schemas import UserSchema
+from fastapi import FastAPI
+from pymongo import MongoClient
+client=MongoClient()
 app = FastAPI()
 
+client.admin.command("ping") 
+
+print("Connected successfully")
+# @app.get("/users/", response_model=List[UserSchema])
+# def read_users(db: Session = Depends(get_db)):
+#     users = db.query(User).all()
+#     return users
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+async def index():
+   return {"message": "Hello World"}
+
+if __name__ == "__main__":
+   uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
